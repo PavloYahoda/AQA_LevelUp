@@ -1,7 +1,9 @@
 package org.levelup.automated.pyah.webdriver;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,8 +16,9 @@ public class BaseTest {
 
     @BeforeAll
     public void setUp(){
-        System.setProperty("webdriver.edge.driver","src/test/resources/msedgedriver");
-        driver = new EdgeDriver();
+//        System.setProperty("webdriver.chrome.driver","src/test/resources/chromedriver");
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
 //                Wait<WebDriver> wait = new FluentWait<>(driver)
 //                .withTimeout(Duration.ofSeconds(2))
@@ -23,9 +26,8 @@ public class BaseTest {
 //                .ignoring(NoSuchElementException.class);
 
 //        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-//        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
         BasePage.setDriver(driver);
     }
@@ -34,10 +36,9 @@ public class BaseTest {
 //    @DisplayName("Open browser")
 //    public void openBrowser(){
 //        driver.get("https://demoqa.com/");
-//
 //    }
 
-    @AfterEach
+    @AfterAll
     public void closeBrowser(){
         driver.close();
         driver.quit();
