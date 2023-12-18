@@ -1,5 +1,6 @@
 package org.levelup.automated.pyah.webdriver;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemoQAMainPage extends BasePage{
+
+    //For Text Box
     @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div/div[1]")
 //    @FindBy(how = How.CSS, using = "div[class='card mt-4 top-card']")
     private WebElement tileElements;
@@ -25,14 +28,19 @@ public class DemoQAMainPage extends BasePage{
     private WebElement permanentAddress;
     @FindBy(how = How.ID, using = "submit")
     private WebElement submitButton;
-    @FindBy(how = How.ID, using = "name")
-    private WebElement filledName;
-    @FindBy(how = How.ID, using = "email")
-    private WebElement filledEmail;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"currentAddress\"]")
-    private WebElement filledCurrentAddress;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"permanentAddress\"]")
-    private WebElement filledPermanentAddress;
+
+    //For Check Box
+    @FindBy(how = How.ID, using = "item-1")
+    private WebElement checkBox;
+    @FindBy(how = How.CLASS_NAME, using = "rct-option-expand-all")
+    private WebElement expandAll;
+    @FindBy(how = How.XPATH, using = "//span[text()='Documents']")
+    private WebElement chDocuments;
+    @FindBy(how = How.XPATH, using = "//span[text()='General']")
+    private WebElement chGeneral;
+    @FindBy(how = How.XPATH, using = "//span[text()='Excel File.doc']")
+    private WebElement chExcelFile;
+
 
 
     public DemoQAMainPage() {
@@ -40,9 +48,15 @@ public class DemoQAMainPage extends BasePage{
         PageFactory.initElements(driver, this);
     }
 
-    private List<String> values;
+    private String filledName;
+    private String filledEmail;
+    private String filledCurAddress;
+    private String filledPerAddress;
+    private boolean markedItems = false;
 
     public DemoQAMainPage clickAndFill (String fullNameValue, String emailValue, String currentAddressValue, String permanentAddressValue){
+
+        //For Text Box form
         tileElements.click();
         textBox.click();
         fullName.sendKeys(fullNameValue);
@@ -54,16 +68,55 @@ public class DemoQAMainPage extends BasePage{
         js.executeScript("window.scrollBy(0,document.body.scrollHeight)");
         submitButton.click();
 
-        values = new ArrayList<>();
-        values.add(filledName.getText());
-        values.add(filledEmail.getText());
-        values.add(filledCurrentAddress.getAttribute("Current Address :"));
-        values.add(filledPermanentAddress.getAttribute("Permananet Address :"));
+        //assertEquals
+        By outputNameBy = By.xpath("//div[@id='output']//p[@id='name']");
+        By outputEmailBy = By.xpath("//div[@id='output']//p[@id='email']");
+        By outputCurAddressBy = By.xpath("//div[@id='output']//p[@id='currentAddress']");
+        By outputPerAddressBy = By.xpath("//div[@id='output']//p[@id='permanentAddress']");
+
+        filledName = driver.findElement(outputNameBy).getText();
+        filledEmail = driver.findElement(outputEmailBy).getText();
+        filledCurAddress = driver.findElement(outputCurAddressBy).getText();
+        filledPerAddress = driver.findElement(outputPerAddressBy).getText();
 
         return this;
     }
-    public List<String> getValues() {
-        return values;
+    public void workWithCheckboxes(){
+        tileElements.click();
+        checkBox.click();
+        expandAll.click();
+        chDocuments.click();
+
+        JavascriptExecutor scroll = (JavascriptExecutor) driver;
+        scroll.executeScript("window.scrollBy(0,document.body.scrollHeight)");
+
+        chExcelFile.click();
+        chGeneral.click();
+
+        List<WebElement> selectedItems = driver.findElements(By.xpath("//div[@id='result']//span[@class='text-success']"));
+
+        if(selectedItems.size() == 8){
+            markedItems = true;
+        }
+    }
+    public String getFilledName() {
+        return filledName;
+    }
+
+    public String getFilledEmail() {
+        return filledEmail;
+    }
+
+    public String getFilledCurAddress() {
+        return filledCurAddress;
+    }
+
+    public String getFilledPerAddress() {
+        return filledPerAddress;
+    }
+
+    public boolean isMarkedItems() {
+        return markedItems;
     }
 }
 
