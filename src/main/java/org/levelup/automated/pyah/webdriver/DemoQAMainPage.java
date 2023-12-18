@@ -13,8 +13,7 @@ import java.util.List;
 public class DemoQAMainPage extends BasePage{
 
     //For Text Box
-    @FindBy(how = How.XPATH, using = "//*[@id=\"app\"]/div/div/div[2]/div/div[1]")
-//    @FindBy(how = How.CSS, using = "div[class='card mt-4 top-card']")
+    @FindBy(how = How.XPATH, using = "//div[@class='card mt-4 top-card'][1]")
     private WebElement tileElements;
     @FindBy(how = How.ID, using = "item-0")
     private WebElement textBox;
