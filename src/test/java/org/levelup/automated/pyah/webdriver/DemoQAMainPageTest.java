@@ -24,14 +24,7 @@ public class DemoQAMainPageTest extends BaseTest {
 
         DemoQAMainPage mainPage = new DemoQAMainPage();
         mainPage.clickAndFill(fullNameValue, emailValue, currentAddressValue, permanentAddressValue);
-    }
 
-    //Check previously entered data
-    @Test
-    @Order(2)
-    @DisplayName("Checking values in all fields")
-    void checkValues() {
-        DemoQAMainPage mainPage = new DemoQAMainPage();
         String nameIsSet = mainPage.getFilledName();
         String emailIsSet = mainPage.getFilledEmail();
         String curAddressIsSet = mainPage.getFilledCurAddress();
@@ -41,11 +34,12 @@ public class DemoQAMainPageTest extends BaseTest {
         assertEquals(emailValue, emailIsSet, "Email field is filled with mistakes");
         assertEquals(currentAddressValue, curAddressIsSet, "Current Address field is filled with mistakes");
         assertEquals(permanentAddressValue, permAddressIsSet, "Permanent Address field is filled with mistakes");
+
     }
 
     //Mark checkboxes
     @Test
-    @Order(3)
+    @Order(2)
     @DisplayName("Go to checkboxes")
     void markCheckboxes() {
         DemoQAMainPage mainPage = new DemoQAMainPage();

@@ -75,9 +75,13 @@ public class DemoQAMainPage extends BasePage{
         By outputPerAddressBy = By.xpath("//div[@id='output']//p[@id='permanentAddress']");
 
         filledName = driver.findElement(outputNameBy).getText();
+        filledName = filledName.substring(5);
         filledEmail = driver.findElement(outputEmailBy).getText();
+        filledEmail = filledEmail.substring(6);
         filledCurAddress = driver.findElement(outputCurAddressBy).getText();
+        filledCurAddress = filledCurAddress.substring(17);
         filledPerAddress = driver.findElement(outputPerAddressBy).getText();
+        filledPerAddress = filledPerAddress.substring(20);
 
         return this;
     }
