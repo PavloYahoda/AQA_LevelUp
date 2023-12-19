@@ -1,4 +1,4 @@
-package org.levelup.automated.pyah.webdriver;
+package pyah.webdriver;
 
 import org.junit.jupiter.api.*;
 
